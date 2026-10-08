@@ -14,16 +14,40 @@ class OrderTracker:
         self.storage = storage
 
     def add_order(self, order_id: str, item_name: str, quantity: int, customer_id: str, status: str = "pending"):
-        pass
+        new_order = {
+            "order_id": order_id,
+            "item_name": item_name,
+            "quantity": quantity,
+            "customer_id": customer_id,
+            "status": status
+        }
+        # Check if the order already exists
+        if self.storage.get_order(order_id) is not None:
+            raise ValueError(f"Order with ID '{order_id}' already exists.")
+
+        self.storage.save_order(order_id, new_order)
 
     def get_order_by_id(self, order_id: str):
-        pass
-
+         if not order_id:
+             raise ValueError("Ei! Order ID must be provided.")
+         return self.storage.get_order(order_id)
+        
     def update_order_status(self, order_id: str, new_status: str):
-        pass
-
+        if not order_id:
+            raise ValueError("Order ID must be provided.")
+        
+        if new_status not in ["pending", "processing", "shipped", "delivered", "cancelled"]:
+            raise ValueError(f"Status must be one of ['pending', 'processing', 'shipped', 'delivered', 'cancelled'].")
+        
+        existing_order = self.storage.get_order(order_id)
+        if existing_order is None:
+            raise ValueError(f"Order with ID '{order_id}' does not exist.")
+        existing_order["status"] = new_status
+        self.storage.save_order(order_id, existing_order)
+        
     def list_all_orders(self):
-        pass
+        return list(self.storage.get_all_orders().values())
 
     def list_orders_by_status(self, status: str):
-        pass
+        all_orders = self.storage.get_all_orders().values()
+        return [order for order in all_orders if order["status"] == status]

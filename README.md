@@ -1,4 +1,4 @@
-# Udatracker with Test-Driven Development (TDD)
+# Udatracker with Test-Driven Development (TDD) by Marcusnade
 
 Welcome to the Udatracker project! This guide will walk you through implementing the backend logic and API for your project using a strict **Test-Driven Development (TDD)** workflow.
 
