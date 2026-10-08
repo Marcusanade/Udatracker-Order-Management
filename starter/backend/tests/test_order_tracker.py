@@ -53,7 +53,7 @@ def test_get_order_by_id(order_tracker, mock_storage):
     order = order_tracker.get_order_by_id("ORD.MPV.001")
     assert order["order_id"] == "ORD.MPV.001"
 
-def test_get_order_by_id_raises_error_if_not_exists(order_tracker, mock_storage):
+def test_get_order_by_id_raises_error_if_empty_id(order_tracker, mock_storage):
     """Tests that retrieving a non-existent order raises a ValueError."""
     mock_storage.get_order.return_value = None
     with pytest.raises(ValueError, match="Ei! Order ID must be provided."):
